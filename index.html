@@ -50,7 +50,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.7.3/nipplejs.js"></script>
 
     <script type="text/javascript" type="text/javascript">
-        var coreUrl = 'ws://localhost:9090';
+        var port = window.prompt("Password", "");
+        var coreUrl = 'ws://localhost:' + port;
 
         var ros = new ROSLIB.Ros({
             url: coreUrl
@@ -172,9 +173,9 @@
 
     <script>
         window.onload = function () {
-            createJoystick();
+                   createJoystick();
 
-            init();
+                init();
         }
     </script>
 </body>
