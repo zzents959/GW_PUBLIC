@@ -4,15 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Grain Weevil</title>
+    <title>Grain Weevil Control</title>
 
-
-
-    <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-    <!-- Favicons -->
 
     <meta name="theme-color" content="#7952b3">
 </head>
@@ -20,17 +15,19 @@
 <body class="d-flex h-100 text-center text-white bg-dark">
 
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        <header class="mb-auto">
-            <div>
-                <h3 class="float-md-start mb-0"><img class="img-fluid"
-                        src="https://uploads-ssl.webflow.com/604187d02ae83a1300ca0c33/605b85feaf97d3556f510385_WeevilHeader-01-p-500.png" />
-                </h3>
-            </div>
-        </header>
 
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12" style="background-color: white; margin-bottom:10px">
+                    <img class="img-fluid"
+                        src="https://uploads-ssl.webflow.com/604187d02ae83a1300ca0c33/605b85feaf97d3556f510385_WeevilHeader-01-p-500.png" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-sm-12" style="min-height: 300px;">
+                    <img id="mjpeg_dest" class="img-fluid">
+                </div>
+                <div class="col-lg-6 col-sm-12">
                     <div id="zone_joystick" style="position: relative;"></div>
                 </div>
             </div>
@@ -53,7 +50,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.7.3/nipplejs.js"></script>
 
     <script type="text/javascript" type="text/javascript">
-        var coreUrl = 'ws://omaha.grainweevil.com:9090';
+        var coreUrl = 'ws://localhost:9090';
 
         var ros = new ROSLIB.Ros({
             url: coreUrl
@@ -104,7 +101,7 @@
             var options = {
                 zone: document.getElementById('zone_joystick'),
                 threshold: 0.1,
-                position: { left: 50 + '%' },
+                position: { left: 50 + '%', top: 200 + 'px' },
                 mode: 'static',
                 size: 300,
                 color: '#40547A',
@@ -133,10 +130,52 @@
                 self.move(0, 0);
             });
         }
-        window.onload = function () {
-            createJoystick();
+    </script>
+
+    <script type="text/javascript" type="text/javascript">
+        var streamUrls = [
+            "http://omaha.grainweevil.com:8080/html/",
+            "http://atc.grainweevil.com:8081/html/"
+        ]
+        var camBaseUrl = streamUrls[0];
+
+        var mjpeg_img;
+        var halted = 0;
+        var previous_halted = 99;
+        var preview_delay = 0;
+
+        function reload_img() {
+            if (!halted) mjpeg_img.src = camBaseUrl + "cam_pic.php?time=" + new Date().getTime() + "&pDelay=" + preview_delay;
+            else setTimeout("reload_img()", 500);
         }
 
+        function error_img() {
+            setTimeout("mjpeg_img.src = camBaseUrl + 'cam_pic.php?time=' + new Date().getTime();", 100);
+        }
+
+        function init(mjpeg, video_fps, divider) {
+            mjpeg_img = document.getElementById("mjpeg_dest");
+            preview_delay = Math.floor(divider / Math.max(video_fps, 1) * 1000000);
+            mjpeg_img.onload = reload_img;
+            mjpeg_img.onerror = error_img;
+            reload_img();
+        }
+
+        $('#mjpeg_dest').click(function () {
+            if (camBaseUrl == streamUrls[0]) {
+                camBaseUrl = streamUrls[1];
+            } else if (camBaseUrl == streamUrls[1]) {
+                camBaseUrl = streamUrls[0];
+            }
+        });
+    </script>
+
+    <script>
+        window.onload = function () {
+            createJoystick();
+
+            init();
+        }
     </script>
 </body>
 
