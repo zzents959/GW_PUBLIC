@@ -34,7 +34,7 @@
         </div>
 
         <footer class="mt-auto text-white-50">
-            <p>Connection status: <span id="status"></span> - Version 1.3</p>
+            <p>Connection status: <span id="status"></span> - Version 1.4</p>
         </footer>
     </div>
 
@@ -51,7 +51,8 @@
 
     <script type="text/javascript" type="text/javascript">
         var port = window.prompt("Password", "");
-        var coreUrl = 'ws://98.188.140.103:' + port;
+        var coreUrl = 'ws://omaha.grainweevil.com:' + port;
+        var rbt_id = window.prompt("Robot ID");
 
         var ros = new ROSLIB.Ros({
             url: coreUrl
@@ -79,7 +80,7 @@
 
         cmd_vel_listener = new ROSLIB.Topic({
             ros: ros,
-            name: "/cmd_vel",
+            name: "/robot_" + rbt_id + "/cmd_vel",
             messageType: 'geometry_msgs/Twist'
         });
         move = function (linear, angular) {
@@ -135,8 +136,8 @@
 
     <script type="text/javascript" type="text/javascript">
         var streamUrls = [
-            "http://98.188.140.103:8080/html/",
-            "http://98.188.140.103:8081/html/"
+            "http://omaha.grainweevil.com:8080/html/",
+            "http://omaha.grainweevil.com:8081/html/"
         ]
         var camBaseUrl = streamUrls[0];
 
