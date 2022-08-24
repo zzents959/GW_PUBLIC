@@ -51,7 +51,7 @@
 
     <script type="text/javascript" type="text/javascript">
         var port = window.prompt("Password", "");
-        var coreUrl = 'ws://hf.grainweevil.com:' + port;
+        var coreUrl = 'ws://omaha.grainweevil.com:' + port;
 
         var ros = new ROSLIB.Ros({
             url: coreUrl
@@ -135,8 +135,8 @@
 
     <script type="text/javascript" type="text/javascript">
         var streamUrls = [
-            "http://hf.grainweevil.com:8080/html/",
-            "http://hf.grainweevil.com:8081/html/"
+            "http://omaha.grainweevil.com:8080/html/",
+            "http://omaha.grainweevil.com:8081/html/"
         ]
         var camBaseUrl = streamUrls[0];
 
@@ -173,9 +173,9 @@
 
     <script>
         window.onload = function () {
-                   createJoystick();
+            createJoystick();
 
-                init();
+            init();
         }
     </script>
 </body>
