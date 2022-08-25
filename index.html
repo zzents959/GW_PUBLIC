@@ -172,10 +172,83 @@
         });
     </script>
 
+    <script type="text/javascript">
+        var left,
+            right,
+            up,
+            down;
+
+        var lin, ang;
+
+        var t = setInterval(updateSpeed, 200);
+
+        function updateSpeed() {
+            if (up) {
+                lin = 10;
+            } else if (down) {
+                lin = -10;
+            } else {
+                lin = 0;
+            }
+
+            if (left) {
+                ang = 4;
+            } else if (right) {
+                ang = -4;
+            } else {
+                ang = 0;
+            }
+
+            move(lin, ang);
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.keyCode == 38 || event.keyCode == 87) {
+                // ^ or W moves forward
+                // |
+                up = true;
+            }
+            if (event.keyCode == 37 || event.keyCode == 65) {
+                // <- or A moves left
+                left = true;
+            }
+            if (event.keyCode == 40 || event.keyCode == 83) {
+                // |  or S moves backward
+                // \/
+                down = true;
+            }
+            if (event.keyCode == 39 || event.keyCode == 68) {
+                // -> or D moves right
+                right = true;
+            }
+            move(lin, ang);
+        });
+
+        document.addEventListener('keyup', function (event) {
+            if (event.keyCode == 38 || event.keyCode == 87) {
+                // ^ or W moves forward
+                // |
+                up = false;
+            }
+            if (event.keyCode == 37 || event.keyCode == 65) {
+                // <- or A moves left
+                left = false;
+            }
+            if (event.keyCode == 40 || event.keyCode == 83) {
+                // |  or S moves backward
+                // \/
+                down = false;
+            }
+            if (event.keyCode == 39 || event.keyCode == 68) {
+                // -> or D moves right
+                right = false;
+            }
+        });
+    </script>
+
     <script>
         window.onload = function () {
             createJoystick();
-
             init();
         }
     </script>
