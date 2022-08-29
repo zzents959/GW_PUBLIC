@@ -114,9 +114,9 @@
             angular_speed = 0;
 
             manager.on('start', function (event, nipple) {
-                timer = setInterval(function () {
-                    move(linear_speed, angular_speed);
-                }, 25);
+                //timer = setInterval(function () {
+                //    move(linear_speed, angular_speed);
+                //}, 25);
             });
             manager.on('move', function (event, nipple) {
                 max_linear = 5.0; // m/s
@@ -127,9 +127,9 @@
             });
             manager.on('end cancel', function () {
                 if (timer) {
-                    clearInterval(timer);
+                    //clearInterval(timer);
                 }
-                self.move(0, 0);
+                //self.move(0, 0);
             });
         }
     </script>
@@ -178,6 +178,32 @@
             up_kb,
             down_kb;
 
+        var t = setInterval(updateSpeed, 25);
+
+        function updateSpeed() {
+
+            var lin_spd = 0;
+            var ang_spd = 0;
+
+            if (up_kb) {
+                lin_spd = 10;
+            } else if (down_kb) {
+                lin_spd = -10;
+            } else {
+                lin_spd = 0;
+            }
+
+            if (right_kb) {
+                ang_spd = 4;
+            } else if (left_kb) {
+                ang_spd = -4;
+            } else {
+                ang_spd = 0;
+            }
+
+            move(lin_spd, ang_spd);
+        }
+
         document.addEventListener('keydown', function (event) {
             if (event.keyCode == 38 || event.keyCode == 87) {
                 // ^ or W moves forward
@@ -197,16 +223,6 @@
                 // -> or D moves right
                 right_kb = true;
             }
-
-            if (up_kb) {
-                move(10, 0);
-            } else if (down_kb) {
-                move(-10, 0);
-            } else if (right_kb) {
-                move(0, 4);
-            } else if (left_kb) {
-                move(0, -4);
-            }
         });
 
         document.addEventListener('keyup', function (event) {
@@ -214,23 +230,19 @@
                 // ^ or W moves forward
                 // |
                 up_kb = false;
-                move(0, 0);
             }
             if (event.keyCode == 37 || event.keyCode == 65) {
                 // <- or A moves left
                 left_kb = false;
-                move(0, 0);
             }
             if (event.keyCode == 40 || event.keyCode == 83) {
                 // |  or S moves backward
                 // \/
                 down_kb = false;
-                move(0, 0);
             }
             if (event.keyCode == 39 || event.keyCode == 68) {
                 // -> or D moves right
                 right_kb = false;
-                move(0, 0);
             }
         });
     </script>
