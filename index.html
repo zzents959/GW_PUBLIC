@@ -24,12 +24,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-sm-12" style="min-height: 300px;">
-                    <img id="mjpeg_dest" class="img-fluid" width="1600" height="1600">
+                <div class="col-lg-12" style="min-height: 300px;">
+                    <img id="mjpeg_dest" class="img-fluid" width="890" height="890">
                 </div>
+                <!--
                 <div class="col-lg-6 col-sm-12">
                     <div id="zone_joystick" style="position: relative;"></div>
                 </div>
+                -->
             </div>
         </div>
 
@@ -99,6 +101,7 @@
             cmd_vel_listener.publish(twist);
         }
 
+        /*
         createJoystick = function () {
             var options = {
                 zone: document.getElementById('zone_joystick'),
@@ -132,6 +135,7 @@
                 //self.move(0, 0);
             });
         }
+        */
     </script>
 
     <script type="text/javascript" type="text/javascript">
@@ -257,7 +261,7 @@
 
     <script>
         window.onload = function () {
-            createJoystick();
+            //createJoystick();
             init();
         }
     </script>
