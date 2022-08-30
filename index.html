@@ -25,7 +25,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-6 col-sm-12" style="min-height: 300px;">
-                    <img id="mjpeg_dest" class="img-fluid">
+                    <img id="mjpeg_dest" class="img-fluid" width="1600" height="1600">
                 </div>
                 <div class="col-lg-6 col-sm-12">
                     <div id="zone_joystick" style="position: relative;"></div>
@@ -194,9 +194,17 @@
             }
 
             if (right_kb) {
-                ang_spd = 4;
+                if (rbt_id == 0) {
+                    ang_spd = -4;
+                } else {
+                    ang_spd = 4;
+                }
             } else if (left_kb) {
-                ang_spd = -4;
+                if (rbt_id == 0) {
+                    ang_spd = 4;
+                } else {
+                    ang_spd = -4;
+                }
             } else {
                 ang_spd = 0;
             }
